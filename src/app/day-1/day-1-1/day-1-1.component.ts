@@ -1,12 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { input } from "./input";
+import { Component, OnInit } from '@angular/core';
+import { input } from '../input';
 
 @Component({
-  selector: "app-day-1-1",
-  templateUrl: "./day-1-1.component.html",
-  styleUrls: ["./day-1-1.component.scss"]
+  selector: 'app-day-1-1',
+  templateUrl: './day-1-1.component.html',
+  styleUrls: ['./day-1-1.component.scss']
 })
-export class Day11Component implements OnInit {
+export class Day1o1Component implements OnInit {
   input = input;
   result: any;
   constructor() {}
