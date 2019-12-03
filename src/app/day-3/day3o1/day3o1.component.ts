@@ -1,14 +1,7 @@
-import {
-  Component,
-  OnInit,
-  ViewChildren,
-  ViewChild,
-  ElementRef,
-  AfterViewInit
-} from '@angular/core';
-import { input, testInput, exampleInput } from '../input';
+import { Component, OnInit } from '@angular/core';
+import { exampleInput, input } from '../input';
+import { Point, lineSegments, findIntersection, Cardinality } from '../util';
 
-type Cardinality = 'U' | 'D' | 'L' | 'R';
 
 @Component({
   selector: 'app-day3o1',
@@ -21,6 +14,7 @@ export class Day3o1Component implements OnInit {
   width = 800;
   height = 600;
   viewBox = '0 0 800 600';
+  scaleFactor = 0.1;
 
   input: string[][] = input;
   paths: string[] = [];
@@ -28,7 +22,6 @@ export class Day3o1Component implements OnInit {
 
   intersectionPoints: Point[];
 
-  strokeColor = ['red', 'blue'];
   result: number;
   constructor() {}
 
@@ -45,7 +38,7 @@ export class Day3o1Component implements OnInit {
   }
 
   minManhattanDistanceToOrigoPoint(): number {
-    this.intersectionPoints = this.findAllIntersections(this.points);
+    this.findAllIntersections(this.points);
 
     return Math.min(
       ...this.intersectionPoints
@@ -56,25 +49,22 @@ export class Day3o1Component implements OnInit {
 
   /**
    * Finds all the intersecting points between the arrays of lines
-   * @param points
    */
-  findAllIntersections(points: Point[][]): Point[] {
+  findAllIntersections(points: Point[][]) {
     const line1Segments = lineSegments([this.origoPoint, ...points[0]]);
     const line2Segments = lineSegments([this.origoPoint, ...points[1]]);
 
-    const intersectionPoints = [];
+    this.intersectionPoints = [];
 
     // Do some magic
     line1Segments.forEach(line1Segment => {
       line2Segments.forEach(line2Segment => {
         const point = findIntersection(line1Segment, line2Segment);
         if (point) {
-          intersectionPoints.push(point);
+          this.intersectionPoints.push(point);
         }
       });
     });
-
-    return intersectionPoints;
   }
 
   appendDirection(direction: string, index: number) {
@@ -113,75 +103,12 @@ export class Day3o1Component implements OnInit {
       return this.origoPoint;
     }
   }
-}
 
-class Point {
-  x: number;
-  y: number;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  manhattanDistanceToPoint(referencePoint: Point): number {
-    return Math.abs(this.x - referencePoint.x) + Math.abs(this.y - referencePoint.y);
-  }
-}
-
-class LineSegment {
-  a: Point;
-  b: Point;
-
-  constructor(a: Point, b: Point) {
-    this.a = a;
-    this.b = b;
-  }
-}
-
-const lineSegments = (points: Point[]): LineSegment[] => {
-  const segments: LineSegment[] = [];
-  points.forEach((point, i) => {
-    if (i + 1 > points.length - 1) {
-      // There is no next point
-      return;
+  scale(factor: number) {
+    if (factor > 0) {
+      this.scaleFactor *= 1.5;
+    } else {
+      this.scaleFactor /= 1.5;
     }
-
-    segments.push(new LineSegment(points[i], points[i + 1]));
-  });
-  return segments;
-};
-
-const findIntersection = (line1: LineSegment, line2: LineSegment): Point | null => {
-  const z1 = line1.a.x - line1.b.x;
-  const z2 = line2.a.x - line2.b.x;
-  const z3 = line1.a.y - line1.b.y;
-  const z4 = line2.a.y - line2.b.y;
-  const dist = z1 * z4 - z3 * z2;
-  if (dist === 0) {
-    return null;
   }
-  const tempA = line1.a.x * line1.b.y - line1.a.y * line1.b.x;
-  const tempB = line2.a.x * line2.b.y - line2.a.y * line2.b.x;
-  const xCoor = (tempA * z2 - z1 * tempB) / dist;
-  const yCoor = (tempA * z4 - z3 * tempB) / dist;
-
-  if (
-    xCoor < Math.min(line1.a.x, line1.b.x) ||
-    xCoor > Math.max(line1.a.x, line1.b.x) ||
-    xCoor < Math.min(line2.a.x, line2.b.x) ||
-    xCoor > Math.max(line2.a.x, line2.b.x)
-  ) {
-    return null;
-  }
-  if (
-    yCoor < Math.min(line1.a.y, line1.b.y) ||
-    yCoor > Math.max(line1.a.y, line1.b.y) ||
-    yCoor < Math.min(line2.a.y, line2.b.y) ||
-    yCoor > Math.max(line2.a.y, line2.b.y)
-  ) {
-    return null;
-  }
-
-  return new Point(xCoor, yCoor);
-};
+}

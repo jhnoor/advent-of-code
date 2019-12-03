@@ -1,26 +1,55 @@
 <div class="container">
-
-  <pre>
-{{paths | json: 2}}
+  <pre style="width: 100%; overflow: none;"
+    >{{ paths | json: 2 }}
   </pre>
 
-
   <span>Intersections: (pink circles)</span>
-  <p>Result: {{result}}</p>
+  <p>Result: {{ result }}</p>
 
+  <button (click)="scale(1)">Zoom in</button>
+  <button (click)="scale(-1)">Zoom out</button>
 
-  <svg [attr.width]="width" [attr.height]="height" [attr.viewBox]="viewBox" preserveAspectRatio="none">
-    <g transform="translate(1000, 0)">
-
-      <circle [attr.cx]="origoPoint.x" [attr.cy]="origoPoint.y" r="2" stroke="green" fill="none">      </circle>
+  <svg
+    [attr.width]="width"
+    [attr.height]="height"
+    [attr.viewBox]="viewBox"
+    preserveAspectRatio="none"
+  >
+    <g [attr.transform]="'translate(400, 300)scale(' + scaleFactor + ')'">
+      <circle
+        [attr.cx]="origoPoint.x"
+        [attr.cy]="origoPoint.y"
+        r="2"
+        stroke="green"
+        fill="none"
+      ></circle>
 
       <ng-container *ngFor="let point of intersectionPoints">
-          <circle [attr.cx]="point.x" [attr.cy]="point.y" r="2" stroke="pink" fill="none">      </circle>
-
+        <circle
+          [attr.cx]="point.x"
+          [attr.cy]="point.y"
+          [attr.r]="(2 * 1) / scaleFactor"
+          stroke="pink"
+          fill="pink"
+        ></circle>
       </ng-container>
 
-      <path #red fill="none" stroke="red" stroke-opacity="0.66" stroke-width="1px" [attr.d]="paths[0]"></path>
-      <path #blue fill="none" stroke="blue" stroke-opacity="0.66" stroke-width="1px" [attr.d]="paths[1]"></path>
+      <path
+        #red
+        fill="none"
+        stroke="red"
+        stroke-opacity="0.66"
+        [attr.stroke-width]="1 / scaleFactor + 'px'"
+        [attr.d]="paths[0]"
+      ></path>
+      <path
+        #blue
+        fill="none"
+        stroke="blue"
+        stroke-opacity="0.66"
+        [attr.stroke-width]="1 / scaleFactor + 'px'"
+        [attr.d]="paths[1]"
+      ></path>
     </g>
   </svg>
 </div>
