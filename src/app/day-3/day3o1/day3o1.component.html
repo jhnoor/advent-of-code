@@ -1,0 +1,26 @@
+<div class="container">
+
+  <pre>
+{{paths | json: 2}}
+  </pre>
+
+
+  <span>Intersections: (pink circles)</span>
+  <p>Result: {{result}}</p>
+
+
+  <svg [attr.width]="width" [attr.height]="height" [attr.viewBox]="viewBox" preserveAspectRatio="none">
+    <g transform="translate(1000, 0)">
+
+      <circle [attr.cx]="origoPoint.x" [attr.cy]="origoPoint.y" r="2" stroke="green" fill="none">      </circle>
+
+      <ng-container *ngFor="let point of intersectionPoints">
+          <circle [attr.cx]="point.x" [attr.cy]="point.y" r="2" stroke="pink" fill="none">      </circle>
+
+      </ng-container>
+
+      <path #red fill="none" stroke="red" stroke-opacity="0.66" stroke-width="1px" [attr.d]="paths[0]"></path>
+      <path #blue fill="none" stroke="blue" stroke-opacity="0.66" stroke-width="1px" [attr.d]="paths[1]"></path>
+    </g>
+  </svg>
+</div>
