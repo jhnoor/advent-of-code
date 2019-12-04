@@ -7,7 +7,7 @@ import { input } from '../input';
   styleUrls: ['./day2o1.component.scss']
 })
 export class Day2o1Component implements OnInit {
-  input = input;
+  input = [...input];
   result: number[];
   constructor() {}
 
@@ -37,7 +37,6 @@ export class Day2o1Component implements OnInit {
         case 99:
           return;
         default:
-          debugger;
           throw Error(`OPCode ${this.input[i]} not recognized`);
       }
     }

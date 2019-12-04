@@ -63,10 +63,9 @@ export class Day3o2Component implements OnInit {
         );
         const line2StepsForPath = this.getStepsForPath(line2PathUntilSegmentPoint);
 
-        return line1StepsForPath+line2StepsForPath;
+        return line1StepsForPath + line2StepsForPath;
       });
 
-      debugger;
     return Math.min(...result);
   }
 
@@ -85,7 +84,7 @@ export class Day3o2Component implements OnInit {
 
   getStepsForPath(path: Point[]): number {
     let length = 0;
-    for (let i = 0; i < path.length-1; i += 1) {
+    for (let i = 0; i < path.length - 1; i += 1) {
       length += path[i].manhattanDistanceToPoint(path[i + 1]);
     }
     return length;

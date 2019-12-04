@@ -9,6 +9,7 @@ import { Day2o1Component } from './day-2/day2o1/day2o1.component';
 import { Day2o2Component } from './day-2/day2o2/day2o2.component';
 import { Day3o1Component } from './day-3/day3o1/day3o1.component';
 import { Day3o2Component } from './day-3/day3o2/day3o2.component';
+import { Day4o1Component } from './day-4/day4o1/day4o1.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { Day3o2Component } from './day-3/day3o2/day3o2.component';
     Day2o1Component,
     Day2o2Component,
     Day3o1Component,
-    Day3o2Component
+    Day3o2Component,
+    Day4o1Component
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

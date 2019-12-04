@@ -7,7 +7,7 @@ import { input } from '../input';
   styleUrls: ['./day2o2.component.scss']
 })
 export class Day2o2Component implements OnInit {
-  input = input;
+  input = [...input];
   result: number;
 
   constructor() {}
