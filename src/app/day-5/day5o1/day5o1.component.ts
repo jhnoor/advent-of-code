@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { puzzleInput } from '../input';
 import { add, multiply } from 'src/app/util';
 import { Mode } from './mode.enum';
-import { input } from 'src/app/day-2/input';
+import { puzzleInput } from '../input';
 
 @Component({
   selector: 'app-day5o1',
@@ -17,8 +16,6 @@ export class Day5o1Component implements OnInit {
 
   ngOnInit() {
     this.result = this.process([...puzzleInput]);
-    // this.result = this.process([1002, 4, 3, 4, 33]);
-    // this.result = this.process([...input]);
   }
 
   process(program: number[]): number[] {
@@ -26,11 +23,6 @@ export class Day5o1Component implements OnInit {
 
     for (let i = 0; i < program.length; ) {
       const { opcode, modes } = readParameters(program[i]);
-
-      if (opcode === 3 || opcode === 4) {
-        // debugger;
-      }
-
       switch (opcode) {
         case 1:
           this.caseOne(i, program, modes);
@@ -48,6 +40,20 @@ export class Day5o1Component implements OnInit {
           this.caseFour(i, program, modes);
           i += 2;
           break;
+        case 5:
+          i = this.caseFive(i, program, modes);
+          break;
+        case 6:
+          i = this.caseSix(i, program, modes);
+          break;
+        case 7:
+          this.caseSeven(i, program, modes);
+          i += 4;
+          break;
+        case 8:
+          this.caseEight(i, program, modes);
+          i += 4;
+          break;
         case 99:
           return program;
         default:
@@ -55,6 +61,40 @@ export class Day5o1Component implements OnInit {
       }
     }
     return program;
+  }
+
+  caseEight(i: number, program: number[], modes: Mode[]) {
+    const input0 = { mode: modes[0], val: program[i + 1] };
+    const input1 = { mode: modes[1], val: program[i + 2] };
+    const input2 = { mode: modes[2], val: program[i + 3] };
+    const actualInputs = determineMode(program, [input0, input1, input2]);
+
+    program[input2.val] = actualInputs[0] === actualInputs[1] ? 1 : 0;
+  }
+
+  caseSeven(i: number, program: number[], modes: Mode[]) {
+    const input0 = { mode: modes[0], val: program[i + 1] };
+    const input1 = { mode: modes[1], val: program[i + 2] };
+    const input2 = { mode: modes[2], val: program[i + 3] };
+    const actualInputs = determineMode(program, [input0, input1, input2]);
+
+    program[input2.val] = actualInputs[0] < actualInputs[1] ? 1 : 0;
+  }
+
+  caseSix(i: number, program: number[], modes: Mode[]): number {
+    const input0 = { mode: modes[0], val: program[i + 1] };
+    const input1 = { mode: modes[1], val: program[i + 2] };
+
+    const actualInputs = determineMode(program, [input0, input1]);
+    return actualInputs[0] === 0 ? actualInputs[1] : i + 3;
+  }
+
+  caseFive(i: number, program: number[], modes: Mode[]): number {
+    const input0 = { mode: modes[0], val: program[i + 1] };
+    const input1 = { mode: modes[1], val: program[i + 2] };
+
+    const actualInputs = determineMode(program, [input0, input1]);
+    return actualInputs[0] !== 0 ? actualInputs[1] : i + 3;
   }
 
   caseFour(i: number, program: number[], modes: Mode[]) {
@@ -86,21 +126,16 @@ export class Day5o1Component implements OnInit {
   }
 
   log(output, program, i, modes) {
-    if(output !== 0) {
-      debugger;
-    }
     this.logOutput.push(output);
   }
 }
 
 const readParameters = (instruction: number): { opcode: number; modes: Mode[] } => {
   const params = `${instruction}`.padStart(5, '0');
-  const foo = {
+  return {
     opcode: +params.slice(params.length - 2),
     modes: [+params[2], +params[1], +params[0]]
   };
-
-  return foo;
 };
 
 const determineMode = (program, inputs: Array<{ mode: Mode; val: number }>) => {
