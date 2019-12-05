@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { input } from '../input';
+import { multiply, add } from 'src/app/util';
 
 @Component({
   selector: 'app-day2o2',
@@ -34,17 +35,11 @@ export class Day2o2Component implements OnInit {
     for (let i = 0; i < program.length; ) {
       switch (program[i]) {
         case 1:
-          program[program[i + 3]] = this.add(
-            program[program[i + 1]],
-            program[program[i + 2]]
-          );
+          program[program[i + 3]] = add(program[program[i + 1]], program[program[i + 2]]);
           i += SKIP_INDICES;
           break;
         case 2:
-          program[program[i + 3]] = this.multiply(
-            program[program[i + 1]],
-            program[program[i + 2]]
-          );
+          program[program[i + 3]] = multiply(program[program[i + 1]], program[program[i + 2]]);
           i += SKIP_INDICES;
           break;
         case 99:
@@ -55,12 +50,6 @@ export class Day2o2Component implements OnInit {
     }
     return program;
   }
-
-  add(a: number, b: number): number {
-    return a + b;
-  }
-
-  multiply(a: number, b: number): number {
-    return a * b;
-  }
 }
+
+
