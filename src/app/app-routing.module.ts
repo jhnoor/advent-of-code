@@ -8,6 +8,8 @@ import { Day3o1Component } from './day-3/day3o1/day3o1.component';
 import { Day3o2Component } from './day-3/day3o2/day3o2.component';
 import { Day4o1Component } from './day-4/day4o1/day4o1.component';
 import { Day5o1Component } from './day-5/day5o1/day5o1.component';
+import { Day6o1Component } from './day-6/day6o1/day6o1.component';
+import { Day6o2Component } from './day-6/day6o2/day6o2.component';
 
 const routes: Routes = [
   { path: 'day1p1', component: Day1o1Component },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'day3p2', component: Day3o2Component },
   { path: 'day4p1', component: Day4o1Component },
   { path: 'day5p1', component: Day5o1Component },
+  { path: 'day6p1', component: Day6o1Component },
+  { path: 'day6p2', component: Day6o2Component },
 ];
 
 @NgModule({
