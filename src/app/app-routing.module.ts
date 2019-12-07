@@ -11,6 +11,7 @@ import { Day5o1Component } from './day-5/day5o1/day5o1.component';
 import { Day6o1Component } from './day-6/day6o1/day6o1.component';
 import { Day6o2Component } from './day-6/day6o2/day6o2.component';
 import { Day7o1Component } from './day-7/day7o1/day7o1.component';
+import { Day7o2Component } from './day-7/day7o2/day7o2.component';
 
 const routes: Routes = [
   { path: 'day1p1', component: Day1o1Component },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'day6p1', component: Day6o1Component },
   { path: 'day6p2', component: Day6o2Component },
   { path: 'day7p1', component: Day7o1Component },
+  { path: 'day7p2', component: Day7o2Component },
 ];
 
 @NgModule({
